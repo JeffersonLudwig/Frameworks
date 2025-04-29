@@ -1,3 +1,49 @@
+## Comparativo CodeIgniter vs. Yii2
+
+| Característica        | CodeIgniter                                  | Yii2                                             |
+| :-------------------- | :------------------------------------------- | :----------------------------------------------- |
+| **Desempenho** | Rápido, leve                                 | Alto desempenho, otimizado para escalabilidade   |
+| **Curva de Aprendizado** | Mais suave, bom para iniciantes             | Mais íngreme devido à maior complexidade         |
+| **Recursos Out-of-the-box** | Menos recursos nativos, mais dependência de bibliotecas | Muitos recursos integrados (ORM, templates, etc.) |
+| **Escalabilidade** | Bom para projetos pequenos e médios           | Ideal para projetos médios e grandes com alta demanda |
+| **Segurança** | Boa segurança básica                           | Recursos de segurança robustos e abrangentes     |
+| **Extensibilidade** | Flexível, permite mais escolhas               | Altamente extensível e personalizável             |
+| **Ferramentas de Desenvolvimento** | Menos ferramentas integradas                 | Gii (gerador de código) poderoso                 |
+| **Documentação** | Clara e fácil de entender                     | Abrangente e bem organizada                      |
+| **Comunidade** | Grande e ativa                               | Ativa, mas talvez ligeiramente menor             |
+| **Complexidade** | Mais simples                                  | Mais complexo e estruturado                     |
+| **Casos de Uso** | Aplicações web simples, sites, APIs pequenas | Aplicações web complexas, portais, APIs robustas |
+
+### Resumo em Tópicos
+
+**CodeIgniter:**
+
+* Leve e Rápido
+* Simples
+* Fácil Configuração
+* Boa Documentação
+* Arquitetura MVC
+* Segurança básica
+* Comunidade Ativa
+* Flexibilidade
+* URLs Amigáveis
+* Bibliotecas e Helpers
+
+**Yii2:**
+
+* Alto Desempenho
+* Rico em Recursos
+* Arquitetura MVC
+* Forte Segurança
+* Extensibilidade
+* Suporte a Banco de Dados
+* Caching Multi-Tier
+* RESTful API
+* Gii (Gerador de Código)
+* Documentação Abrangente
+* Comunidade Ativa
+* Uso de Namespaces e Traits
+
 # Frameworks
 
 **Estudante:** Jefferson Alan Schmidt Ludwig, Iraê Ervin Gruber da Silva,Lucas Kesler
