@@ -8,13 +8,15 @@ export default function Implantacao() {
   const [produto, setProduto] = useState("");
   const [unidade, setUnidade] = useState("UN");
   const [mostrarPopup, setMostrarPopup] = useState(false);
+  const [pesquisa, setPesquisa] = useState("");
+  const [resultados, setResultados] = useState([]);
+
   const handleChangeProduto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
       setProduto(value);
     }
   };
-
   const MenuPesquisa = () => {
     setMostrarPopup(true);
   };
@@ -64,6 +66,29 @@ export default function Implantacao() {
     e.preventDefault();
   };
 
+  const handleChangePesquisa = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const texto = e.target.value;
+    setPesquisa(texto);
+  };
+
+  useEffect(() => {
+    if (pesquisa === "") {
+      setResultados([]);
+      return;
+    }
+
+    const buscar = async () => {
+      try {
+        const res = await fetch(`/api/produtos?query=${pesquisa}`);
+        const data = await res.json();
+        setResultados(data);
+      } catch (error) {
+        console.error("Erro na busca:", error);
+      }
+    };
+
+    buscar();
+  }, [pesquisa]);
   return (
     <div>
       <div className="flex flex-col">
@@ -133,7 +158,7 @@ export default function Implantacao() {
         <>
           <div className="fixed inset-0 bg-black opacity-50 z-40" />
           <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
-            <div className="bg-white rounded-xl shadow-lg w-full max-w-2xl p-6">
+            <div className="bg-white rounded-xl shadow-lg w-[40vw] p-6 h-[40vh]">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-xl font-semibold">Pesquisar</h2>
                 <button
@@ -147,9 +172,21 @@ export default function Implantacao() {
                 type="text"
                 placeholder="Digite aqui..."
                 className="w-full border border-gray-300 rounded px-4 py-2 mb-4"
+                value={pesquisa}
+                onChange={handleChangePesquisa}
               />
-              <div>
-                <p className="text-gray-600">Resultados aparecerão aqui...</p>
+              <div className="mt-4">
+                {pesquisa !== "" && resultados.length === 0 ? (
+                  <p className="text-gray-500">Nenhum resultado encontrado.</p>
+                ) : (
+                  <ul>
+                    {resultados.map((item: any) => (
+                      <li key={item.id} className="border p-2 rounded mb-2">
+                        {item.nome}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
             </div>
           </div>
