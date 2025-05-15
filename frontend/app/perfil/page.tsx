@@ -2,7 +2,7 @@ import { Menu, Sidebar } from "@/components/menu";
 
 export default function PerfilModal() {
   return (
-    <div className="flex overflow-hidden">
+    <div className="flex overflow-hidden h-screen">
       <div className="h-screen">
         <Menu />
       </div>
