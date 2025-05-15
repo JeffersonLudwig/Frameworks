@@ -10,6 +10,7 @@ import { Search } from "lucide-react";
 import { use, useEffect, useState } from "react";
 
 export default function Implantacao() {
+  const [produto, setProduto] = useState("");
   const [mostrarPopup, setMostrarPopup] = useState(false);
   const abrirPopup = () => setMostrarPopup(true);
   const fecharPopup = () => setMostrarPopup(false);

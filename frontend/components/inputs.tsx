@@ -101,14 +101,16 @@ function InputProduto() {
 
   return (
     <>
-      <input
-        type="text"
-        name="produto"
-        id="produto"
-        value={produto}
-        onChange={handleChangeProduto}
-        className="border rounded w-[15vw] p-3 text-lg"
-      ></input>
+      <div className="flex flex-col">
+        <input
+          type="text"
+          name="produto"
+          id="produto"
+          value={produto}
+          onChange={handleChangeProduto}
+          className="border rounded w-[15vw] p-3 text-lg"
+        ></input>
+      </div>
     </>
   );
 }
