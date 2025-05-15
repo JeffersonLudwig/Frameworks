@@ -24,7 +24,7 @@ export default function Movimentacao() {
 
   return (
     <div>
-      <div className="flex overflow-hidden">
+      <div className="flex overflow-hidden h-screen">
         <div className="h-screen">
           <Menu />
         </div>
