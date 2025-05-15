@@ -1,9 +1,9 @@
-import LayoutNota from "./components/LayoutNota";
+import LayoutNota from "./components/layoutNota";
 
 export default function Saida() {
-    return (
-        <div className=" bg-white text-black">
-            <LayoutNota />
-        </div>
-    );
+  return (
+    <div className=" bg-white text-black">
+      <LayoutNota />
+    </div>
+  );
 }

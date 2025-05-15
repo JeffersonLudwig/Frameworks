@@ -1,12 +1,9 @@
-import { error } from "console";
-import { Menu, Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import LayoutNota from "./components/LayoutNota";
+import LayoutNota from "./components/layoutNota";
 
 export default function Entrada() {
   return (
     <div className=" bg-white text-black">
-      <LayoutNota/>
+      <LayoutNota />
     </div>
-)
+  );
 }
