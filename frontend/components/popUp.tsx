@@ -36,17 +36,19 @@ function PopUpPesquisa({ mostrar, onFechar }: PopUpPesquisaProps) {
       return;
     }
 
-    const buscar = async () => {
-      try {
-        const res = await fetch(`/api/produtos?query=${pesquisa}`);
-        const data = await res.json();
-        setResultados(data);
-      } catch (error) {
-        console.error("Erro na busca:", error);
-      }
-    };
-
-    buscar();
+    const delayDebounce = setTimeout(() => {
+      const buscar = async () => {
+        try {
+          const res = await fetch(`/api/produtos?query=${pesquisa}`);
+          const data = await res.json();
+          setResultados(data);
+        } catch (error) {
+          console.error("Erro na busca:", error);
+        }
+      };
+      buscar();
+    }, 500);
+    return () => clearTimeout(delayDebounce);
   }, [pesquisa]);
 
   return (
