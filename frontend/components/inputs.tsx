@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 
 function InputPesquisa() {
   const [pesquisa, setPesquisa] = useState("");
@@ -19,13 +19,12 @@ function InputPesquisa() {
   );
 }
 
-function InputQuantidade() {
+const InputQuantidade = forwardRef((_, ref) => {
   const [quantidade, setQuantidade] = useState("");
   const [unidade, setUnidade] = useState("UN");
 
   const handleChangeQuantidade = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-
     if (unidade === "UN") {
       if (/^\d*$/.test(value)) {
         setQuantidade(value);
@@ -44,8 +43,13 @@ function InputQuantidade() {
     }
   };
 
+  useImperativeHandle(ref, () => ({
+    getQuantidade: () => quantidade,
+    getUnidade: () => unidade,
+  }));
+
   return (
-    <>
+    <div className="flex flex-col">
       <label htmlFor="quantidade" className="text-xl font-semibold">
         Quantidade:
       </label>
@@ -54,23 +58,28 @@ function InputQuantidade() {
         name="quantidade"
         id="quantidade"
         value={quantidade}
-        onBlur={handleBlurQuantidade}
         onChange={handleChangeQuantidade}
+        onBlur={handleBlurQuantidade}
         placeholder="Quantidade"
         className="border rounded w-[15vw] p-3 text-lg"
       />
-    </>
+    </div>
   );
-}
+});
 
-function InputUnidade() {
+const InputUnidade = forwardRef((_, ref) => {
   const [unidade, setUnidade] = useState("UN");
+
   const handleChangeUnidade = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
-    setUnidade(value);
+    setUnidade(e.target.value);
   };
+
+  useImperativeHandle(ref, () => ({
+    getUnidade: () => unidade,
+  }));
+
   return (
-    <>
+    <div className="flex flex-col">
       <label htmlFor="unidade" className="text-xl font-semibold">
         Unidade:
       </label>
@@ -86,12 +95,13 @@ function InputUnidade() {
         <option value="MT">MT</option>
         <option value="L">L</option>
       </select>
-    </>
+    </div>
   );
-}
+});
 
-function InputProduto() {
+const InputProduto = forwardRef((_, ref) => {
   const [produto, setProduto] = useState("");
+
   const handleChangeProduto = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     if (/^\d*$/.test(value)) {
@@ -99,19 +109,23 @@ function InputProduto() {
     }
   };
 
+  useImperativeHandle(ref, () => ({
+    getProduto: () => produto,
+  }));
+
   return (
-    <>
-      <div className="flex flex-col">
-        <input
-          type="text"
-          name="produto"
-          id="produto"
-          value={produto}
-          onChange={handleChangeProduto}
-          className="border rounded w-[15vw] p-3 text-lg"
-        ></input>
-      </div>
-    </>
+    <div className="flex flex-col">
+      <input
+        type="text"
+        name="produto"
+        id="produto"
+        value={produto}
+        onChange={handleChangeProduto}
+        className="border rounded w-[15vw] p-3 text-lg"
+        placeholder="Código do produto"
+      />
+    </div>
   );
-}
+});
+
 export { InputPesquisa, InputQuantidade, InputUnidade, InputProduto };

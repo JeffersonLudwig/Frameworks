@@ -1,25 +1,43 @@
 "use client";
 
 import { Menu, Sidebar } from "@/components/menu";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Implantacao from "./implantacao";
 import Entrada from "./entrada";
 
 export default function Movimentacao() {
   const [tipo, setTipo] = useState("implantacao");
-
+  const formRef = useRef<any>(null);
   const handleChange = (e: any) => {
     setTipo(e.target.value);
   };
   const renderizarComponente = () => {
-    if (tipo === "implantacao") return <Implantacao />;
+    if (tipo === "implantacao") return <Implantacao ref={formRef} />;
     if (tipo === "entrada") return <Entrada />;
     // if (tipo === 'saida') return <Saida />;
     return null;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const dados = formRef.current?.getDados();
+    if (!dados) return;
+    console.log(dados);
+    try {
+      const res = await fetch("/api/movimentacao", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dados),
+      });
+
+      const resultado = await res.json();
+      console.log("Sucesso:", resultado);
+    } catch (error) {
+      console.error("Erro ao salvar movimentação:", error);
+    }
   };
 
   return (
