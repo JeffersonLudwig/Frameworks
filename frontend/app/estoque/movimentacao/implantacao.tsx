@@ -9,7 +9,15 @@ import { PopUpPesquisa } from "@/components/popUp";
 import { Search } from "lucide-react";
 import { useImperativeHandle, useRef, useState, forwardRef } from "react";
 
-const Implantacao = forwardRef((_, ref) => {
+export type ImplantacaoHandles = {
+  getDados: () => {
+    produto: string;
+    unidade: string;
+    quantidade: number;
+  };
+};
+
+const Implantacao = forwardRef<ImplantacaoHandles>((_, ref) => {
   const produtoRef = useRef<any>(null);
   const unidadeRef = useRef<any>(null);
   const quantidadeRef = useRef<any>(null);
