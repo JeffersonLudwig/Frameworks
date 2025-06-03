@@ -8,5 +8,6 @@ class EstoqueProdutoModel  extends Model
 {
     protected $table = 'estoque_produtos';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['id_estoque', 'id_produto'];
+    protected $useTimestamps = true;
+    protected $allowedFields = ['id_estoque', 'id_produto', 'quantidade', 'preco'];
 }
