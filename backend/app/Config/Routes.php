@@ -11,4 +11,7 @@ $routes->group('api', function ($routes) {
     $routes->get('users', 'UserController::index');
     $routes->get('users/findAll', 'UsuarioController::index');
     $routes->get('estoques/findAll', 'EstoqueController::index');
+    $routes->get('/ping', function () {
+        return response()->setJSON(['pong' => true]);
+    });
 });

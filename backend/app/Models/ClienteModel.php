@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EstoqueModel extends Model
+class ClienteModel extends Model
 {
     protected $table = 'clientes';
     protected $useTimestamps = true;

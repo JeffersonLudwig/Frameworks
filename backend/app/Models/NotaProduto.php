@@ -4,7 +4,7 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class EstoqueModel extends Model
+class NotaProduto extends Model
 {
     protected $table = 'notas_fiscais';
     protected $useTimestamps = true;
