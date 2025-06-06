@@ -22,10 +22,9 @@ class NotaFiscalModel extends Model
         'cliente_id'
     ];
 
-    public function cadastrarNotaFiscal(array $dados, $userId)
+    public function cadastrarNotaFiscal(array $dados)
     {
         unset($dados['created_at']);
-        $dados['cliente_id'] = $userId;
         return $this->insert($dados);
     }
 }

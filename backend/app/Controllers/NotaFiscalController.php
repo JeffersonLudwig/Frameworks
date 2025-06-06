@@ -27,6 +27,7 @@ class NotaFiscalController extends BaseController
             'data_saida'        => 'required|valid_date',
             'valor_total'       => 'required|decimal',
             'valor_desconto'    => 'required|decimal',
+            'cliente_id'        => 'required',
         ];
 
         $validationMessages = [
@@ -34,6 +35,7 @@ class NotaFiscalController extends BaseController
             'numero_serie' => ['required' => 'O campo número de série é obrigatório.'],
             'numero_folhas' => ['required' => 'O campo número de folhas é obrigatório.'],
             'natureza_operacao' => ['required' => 'O campo natureza da operação é obrigatório.'],
+            'cliente_id' => ['required' => 'O campo client_id é obrigatório.'],
             'data_emissao' => [
                 'required' => 'A data de emissão é obrigatória.',
                 'valid_date' => 'A data de emissão deve estar em formato válido.'
@@ -63,10 +65,8 @@ class NotaFiscalController extends BaseController
             $notaFiscalDTO = new NotaFiscalDTO($postData);
             $dadosSalvar = $notaFiscalDTO->toArray();
 
-            $userId = 1; // substituir por id do usuário logado (auth, session, token etc)
-
             $notaFiscalModel = new NotaFiscalModel();
-            $notaFiscalModel->cadastrarNotaFiscal($dadosSalvar, $userId);
+            $notaFiscalModel->cadastrarNotaFiscal($dadosSalvar);
 
             return $this->response->setJSON([
                 'status' => 'success',
