@@ -12,4 +12,6 @@ $routes->group('api', function ($routes) {
     $routes->get('users/findall', 'UsuarioController::index');
     $routes->get('estoques/findAll', 'EstoqueController::index');
     $routes->post('notafiscal/cadastrar', 'NotaFiscalController::index');
+    $routes->get('notafiscal/listar', 'NotaFiscalController::listarNotaFiscal');
+    $routes->get('notafiscal/listar/(:num)', 'NotaFiscalController::listarNotaFiscalId/$1');
 });

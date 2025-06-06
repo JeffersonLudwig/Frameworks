@@ -27,4 +27,25 @@ class NotaFiscalModel extends Model
         unset($dados['created_at']);
         return $this->insert($dados);
     }
+
+    public function listarNotaFiscal(): array
+    {
+        $teste = $this->builder()
+            ->select('notas_fiscais.*, clientes.nome AS nome')
+            ->join('clientes', 'clientes.id = notas_fiscais.cliente_id', 'left')
+            ->orderBy('notas_fiscais.data_emissao', 'CRESC')
+            ->get()
+            ->getResultArray();
+        return $teste;
+    }
+
+    public function listarNotaFiscalId($id)
+    {
+        return $this->builder()
+            ->select('notas_fiscais.*, clientes.nome')
+            ->join('clientes', 'clientes.id = notas_fiscais.cliente_id', 'left')
+            ->where('notas_fiscais.id', $id)
+            ->get()
+            ->getRowArray();
+    }
 }

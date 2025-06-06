@@ -3,7 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\NotaFiscalModel;
-use App\Entities\Request\NotaFiscalDTO;
+use App\Entities\Request\NotaFiscalRequestDTO;
+use App\Entities\Response\NotaFiscalResponseDTO;
 
 class NotaFiscalController extends BaseController
 {
@@ -62,7 +63,7 @@ class NotaFiscalController extends BaseController
         }
 
         try {
-            $notaFiscalDTO = new NotaFiscalDTO($postData);
+            $notaFiscalDTO = new NotaFiscalRequestDTO($postData);
             $dadosSalvar = $notaFiscalDTO->toArray();
 
             $notaFiscalModel = new NotaFiscalModel();
@@ -72,6 +73,61 @@ class NotaFiscalController extends BaseController
                 'status' => 'success',
                 'data' => $dadosSalvar
             ]);
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ])->setStatusCode(500);
+        }
+    }
+
+    public function listarNotaFiscal()
+    {
+        try {
+            $notaFiscalModel = new NotaFiscalModel();
+            $registros =  $notaFiscalModel->listarNotaFiscal();
+
+            $resultados = [];
+
+            foreach ($registros as $registro) {
+                $dto = new NotaFiscalResponseDTO($registro);
+                $resultados[] = $dto->toArray();
+            }
+
+            return $this->response
+                ->setJSON([
+                    'status' => 'success',
+                    'data' => $resultados
+                ])
+                ->setStatusCode(200);
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ])->setStatusCode(500);
+        }
+    }
+
+    public function listarNotaFiscalId($id)
+    {
+        try {
+            $notaFiscalModel = new NotaFiscalModel();
+            $registro = $notaFiscalModel->listarNotaFiscalId($id);
+            if (!$registro) {
+                return $this->response->setJSON([
+                    'status' => 'error',
+                    'message' => 'Nota Fiscal não encontrada.'
+                ])->setStatusCode(404);
+            }
+
+            $dto = new NotaFiscalResponseDTO($registro);
+
+            return $this->response
+                ->setJSON([
+                    'status' => 'success',
+                    'data' => $dto->detalhesArray()
+                ])
+                ->setStatusCode(200);
         } catch (\Throwable $e) {
             return $this->response->setJSON([
                 'status' => 'error',
