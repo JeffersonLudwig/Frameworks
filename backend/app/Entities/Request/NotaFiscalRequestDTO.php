@@ -3,7 +3,7 @@
 namespace App\Entities\Request;
 
 
-class NotaFiscalDTO
+class NotaFiscalRequestDTO
 {
     public string $numero_nf;
     public string $numero_serie;
@@ -39,7 +39,7 @@ class NotaFiscalDTO
             'data_saida'        => $this->data_saida,
             'valor_total'       => $this->valor_total,
             'valor_desconto'    => $this->valor_desconto,
-            'cliente_id'        => $this->cliente_id
+            'nome'              => $this->cliente_id
         ];
     }
 }
