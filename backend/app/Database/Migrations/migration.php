@@ -117,6 +117,7 @@ class CreateDatabaseSchema extends Migration
             'valor_desconto' => ['type' => 'DECIMAL', 'constraint' => [10, 2]],
             'cliente_id' => ['type' => 'INT'],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('cliente_id', 'clientes', 'id', 'CASCADE', 'CASCADE');

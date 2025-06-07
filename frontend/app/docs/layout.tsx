@@ -6,7 +6,7 @@ export default function DocsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex w-screen bg-[#080A13] overflow-hidden">
+    <div className="flex w-screen bg-[#080A13] overflow-hidden h-screen">
       <SidebarDocs />
       <main className="flex-1 p-8 overflow-hidden">{children}</main>
     </div>

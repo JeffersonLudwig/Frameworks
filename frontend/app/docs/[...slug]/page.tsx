@@ -262,14 +262,21 @@ export default async function DocPage({ params }: Props) {
     notFound();
   }
 
-  const getDocType = () => {
-    if (path.includes("/funcoes/")) return "Função";
-    if (path.includes("/dto/")) return "DTO";
-    if (path.includes("/models/")) return "Modelo";
-    return "Documentação";
+  const getDocInfo = () => {
+    if (path.includes("/fiscal/funcoes/")) {
+      return { docType: "Função", dev: "Luiz" };
+    }
+    if (path.includes("/fiscal/dto/")) {
+      return { docType: "DTO", dev: "Luiz" };
+    }
+    if (path.includes("/fiscal/models/")) {
+      return { docType: "Modelo", dev: "Luiz" };
+    }
+    return { docType: "Documentação", dev: "Luiz" };
   };
 
-  const docType = getDocType();
+  const { docType } = getDocInfo();
+  const { dev } = getDocInfo();
   const parsedContent = parseMarkdown(content.content);
 
   return (
@@ -289,8 +296,13 @@ export default async function DocPage({ params }: Props) {
         </nav>
 
         <div className="mb-8">
-          <div className="inline-block bg-[#1A4B3A] text-green-100 text-xs font-medium px-2.5 py-1 rounded mb-2">
-            {docType}
+          <div className="flex items-center">
+            <div className="inline-block bg-[#1A4B3A] text-green-100 text-xs font-medium px-2.5 py-1 rounded mb-2">
+              {docType}
+            </div>
+            <div className="inline-block bg-[#1A4B3A] text-green-100 text-xs font-medium px-2.5 py-1 rounded ml-2 mb-2">
+              {dev}
+            </div>
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">
             {content.title}

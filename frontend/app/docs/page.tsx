@@ -1,6 +1,6 @@
 export default function DocsHomePage() {
   return (
-    <div className="max-w-4xl mx-auto overflow-hidden">
+    <div className="max-w-4xl mx-auto overflow-hidden h-screen">
       <h1 className="text-4xl font-bold text-gray-900 mb-6">
         Bem-vindo à Documentação
       </h1>
