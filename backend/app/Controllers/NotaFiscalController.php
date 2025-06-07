@@ -8,7 +8,7 @@ use App\Entities\Response\NotaFiscalResponseDTO;
 
 class NotaFiscalController extends BaseController
 {
-    public function index()
+    public function cadastrarNotaFiscal()
     {
         if (!$this->request->is('post')) {
             return $this->response->setJSON([

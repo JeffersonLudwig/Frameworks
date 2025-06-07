@@ -122,8 +122,19 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    @apply overflow-hidden;
   }
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.scroll-hidden {
+  overflow-y: auto; /* Permite scroll vertical */
+  -ms-overflow-style: none; /* Internet Explorer e Edge antigo */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scroll-hidden::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Edge moderno */
 }
