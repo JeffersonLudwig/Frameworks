@@ -39,7 +39,7 @@ class NotaFiscalRequestDTO
             'data_saida'        => $this->data_saida,
             'valor_total'       => $this->valor_total,
             'valor_desconto'    => $this->valor_desconto,
-            'nome'              => $this->cliente_id
+            'cliente_id'              => $this->cliente_id
         ];
     }
 }
