@@ -83,6 +83,13 @@ class NotaFiscalController extends BaseController
 
     public function listarNotaFiscal()
     {
+        if (!$this->request->is('get')) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Método não permitido.'
+            ])->setStatusCode(405);
+        }
+
         try {
             $notaFiscalModel = new NotaFiscalModel();
             $registros =  $notaFiscalModel->listarNotaFiscal();
@@ -110,6 +117,13 @@ class NotaFiscalController extends BaseController
 
     public function listarNotaFiscalId($id)
     {
+        if (!$this->request->is('get')) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Método não permitido.'
+            ])->setStatusCode(405);
+        }
+
         try {
             $notaFiscalModel = new NotaFiscalModel();
             $registro = $notaFiscalModel->listarNotaFiscalId($id);
