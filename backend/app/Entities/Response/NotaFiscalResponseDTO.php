@@ -32,38 +32,31 @@ class NotaFiscalResponseDTO
 
     public function toArray(): array
     {
-        try {
-            return [
-                'id'                => $this->id,
-                'numero_nf'         => $this->numero_nf,
-                'numero_serie'      => $this->numero_serie,
-                'data_emissao'      => $this->data_emissao,
-                'valor_total'       => $this->valor_total,
-                'valor_desconto'    => $this->valor_desconto,
-                'cliente'           => $this->nome
-            ];
-        } catch (\Throwable $exception) {
-            throw $exception;
-        }
+        return [
+            'id'                => $this->id,
+            'numero_nf'         => $this->numero_nf,
+            'numero_serie'      => $this->numero_serie,
+            'data_emissao'      => $this->data_emissao,
+            'valor_total'       => $this->valor_total,
+            'valor_desconto'    => $this->valor_desconto,
+            'cliente'           => $this->nome
+        ];
     }
+
 
     public function detalhesArray(): array
     {
-        try {
-            return [
-                'id'                => $this->id,
-                'numero_nf'         => $this->numero_nf,
-                'numero_serie'      => $this->numero_serie,
-                'numero_folhas'     => $this->numero_folhas,
-                'natureza_operacao' => $this->natureza_operacao,
-                'data_emissao'      => $this->data_emissao,
-                'data_saida'        => $this->data_saida,
-                'valor_total'       => $this->valor_total,
-                'valor_desconto'    => $this->valor_desconto,
-                'cliente'           => $this->nome
-            ];
-        } catch (\Throwable $exception) {
-            throw $exception;
-        }
+        return [
+            'id'                => $this->id,
+            'numero_nf'         => $this->numero_nf,
+            'numero_serie'      => $this->numero_serie,
+            'numero_folhas'     => $this->numero_folhas,
+            'natureza_operacao' => $this->natureza_operacao,
+            'data_emissao'      => $this->data_emissao,
+            'data_saida'        => $this->data_saida,
+            'valor_total'       => $this->valor_total,
+            'valor_desconto'    => $this->valor_desconto,
+            'cliente'           => $this->nome
+        ];
     }
 }
