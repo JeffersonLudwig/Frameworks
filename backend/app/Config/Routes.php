@@ -15,3 +15,11 @@ $routes->group('api', function ($routes) {
     $routes->get('notafiscal/listar', 'NotaFiscalController::listarNotaFiscal');
     $routes->get('notafiscal/listar/(:num)', 'NotaFiscalController::listarNotaFiscalId/$1');
 });
+$routes->group('api', function ($routes) {
+    $routes->get('produtos', 'ProdutoController::index');
+    $routes->get('produtos/(:num)', 'ProdutoController::show/$1');
+    $routes->post('produtos', 'ProdutoController::create');
+    $routes->put('produtos/(:num)', 'ProdutoController::update/$1');
+    $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
+    $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
+});
