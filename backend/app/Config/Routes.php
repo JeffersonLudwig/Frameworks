@@ -28,7 +28,7 @@ $routes->group('api', function ($routes) {
 //     $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
 //     $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
 // });
-$routes->group('api', ['filter' => 'jwt'], function ($routes) {
-    // EstoqueProduto
-    $routes->resource('estoqueprodutos', 'EstoqueProdutoController', ['except' => ['new', 'edit']]);
-});
+// $routes->group('api', ['filter' => 'jwt'], function ($routes) {
+//     // EstoqueProduto
+//     $routes->resource('estoqueprodutos', 'EstoqueProdutoController', ['except' => ['new', 'edit']]);
+// });
