@@ -72,7 +72,6 @@ class AuthController extends ResourceController
 
         return $this->respond([
             'token' => $token,
-            'message' => 'Login realizado com sucesso',
         ]);
     }
 }
