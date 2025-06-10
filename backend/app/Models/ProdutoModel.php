@@ -26,4 +26,16 @@ class ProdutoModel extends Model
             'integer'  => 'O estoque_id deve ser um número inteiro.',
         ],
     ];
+
+    public function produtoEmNotaFiscalSaida(int $produtoId): array
+    {
+        $db = \Config\Database::connect();
+        $query = $db->table('notas_fiscais_produtos')
+            ->select('notas_fiscais_produtos.nota_fiscal_id')
+            ->join('notas_fiscais', 'notas_fiscais.id = notas_fiscais_produtos.nota_fiscal_id')
+            ->where('notas_fiscais_produtos.produto_id', $produtoId)
+            ->get();
+
+        return $query->getResultArray();
+    }
 }
