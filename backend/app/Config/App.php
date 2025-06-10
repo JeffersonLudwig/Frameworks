@@ -82,7 +82,8 @@ class App extends BaseConfig
     |
     */
     public string $permittedURIChars = 'a-z 0-9~%.:_\-';
-
+    public bool $displayErrors = true;
+    public bool $production = false;
     /**
      * --------------------------------------------------------------------------
      * Default Locale
