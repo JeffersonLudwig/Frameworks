@@ -23,6 +23,7 @@ class ClientesSeeder extends Seeder
                 'email'              => 'contato@exemplo.com',
                 'telefone'           => '(11) 99999-0000',
                 'created_at'         => date('Y-m-d H:i:s'),
+                'updated_at'         => null,
             ],
             [
                 'nome'               => 'Cliente Teste ME',
@@ -38,6 +39,7 @@ class ClientesSeeder extends Seeder
                 'email'              => 'cliente@teste.com',
                 'telefone'           => '(11) 98888-7777',
                 'created_at'         => date('Y-m-d H:i:s'),
+                'updated_at'         => null,
             ],
         ];
 

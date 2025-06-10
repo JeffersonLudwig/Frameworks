@@ -4,15 +4,15 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateDatabaseSchema extends Migration
+class UpdateUsuariosDate extends Migration
 {
     public function up()
     {
         // Estoques
         $this->forge->addField([
             'id' => ['type' => 'INT'], // não auto_incrementa aqui
-            'nome_estoque' => ['type' => 'VARCHAR', 'constraint' => 255],
-            'cnpj' => ['type' => 'VARCHAR', 'constraint' => 18],
+            'nome_estoque' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 255],
+            'cnpj' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 18],
             'rua' => ['type' => 'VARCHAR', 'constraint' => 255],
             'bairro' => ['type' => 'VARCHAR', 'constraint' => 255],
             'cidade' => ['type' => 'VARCHAR', 'constraint' => 255],
@@ -21,6 +21,7 @@ class CreateDatabaseSchema extends Migration
             'cep' => ['type' => 'VARCHAR', 'constraint' => 9],
             'telefone' => ['type' => 'VARCHAR', 'constraint' => 15],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('estoques');
@@ -36,11 +37,12 @@ class CreateDatabaseSchema extends Migration
         $this->forge->addField([
             'id' => ['type' => 'INT'],
             'nome' => ['type' => 'VARCHAR', 'constraint' => 255],
-            'email' => ['type' => 'VARCHAR', 'constraint' => 255],
+            'email' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 255],
             'senha' => ['type' => 'VARCHAR', 'constraint' => 255],
             'permissao' => ['type' => 'VARCHAR', 'constraint' => 255],
             'estoque_id' => ['type' => 'INT'],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('estoque_id', 'estoques', 'id', 'CASCADE', 'CASCADE');
@@ -52,9 +54,10 @@ class CreateDatabaseSchema extends Migration
         // Produtos
         $this->forge->addField([
             'id' => ['type' => 'INT'],
-            'nome' => ['type' => 'VARCHAR', 'constraint' => 255],
+            'nome' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 255],
             'estoque_id' => ['type' => 'INT'],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('estoque_id', 'estoques', 'id', 'CASCADE', 'CASCADE');
@@ -85,7 +88,7 @@ class CreateDatabaseSchema extends Migration
         $this->forge->addField([
             'id' => ['type' => 'INT'],
             'nome' => ['type' => 'VARCHAR', 'constraint' => 255],
-            'documento' => ['type' => 'VARCHAR', 'constraint' => 255],
+            'documento' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 255],
             'inscricao_estadual' => ['type' => 'VARCHAR', 'constraint' => 255],
             'logradouro' => ['type' => 'VARCHAR', 'constraint' => 255],
             'numero' => ['type' => 'VARCHAR', 'constraint' => 255],
@@ -97,6 +100,7 @@ class CreateDatabaseSchema extends Migration
             'email' => ['type' => 'VARCHAR', 'constraint' => 255],
             'telefone' => ['type' => 'VARCHAR', 'constraint' => 15],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->createTable('clientes');
@@ -134,6 +138,7 @@ class CreateDatabaseSchema extends Migration
             'quantidade' => ['type' => 'DECIMAL', 'constraint' => [10, 2]],
             'valor_unitario' => ['type' => 'DECIMAL', 'constraint' => [10, 2]],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
+            'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('nota_fiscal_id', 'notas_fiscais', 'id', 'CASCADE', 'CASCADE');

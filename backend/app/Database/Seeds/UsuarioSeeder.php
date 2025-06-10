@@ -16,6 +16,7 @@ class UsuarioSeeder extends Seeder
                 'permissao'  => 'admin',
                 'estoque_id' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
             ],
             [
                 'nome'       => 'User Comum',
@@ -24,9 +25,9 @@ class UsuarioSeeder extends Seeder
                 'permissao'  => 'usuario',
                 'estoque_id' => 2,
                 'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => null,
             ],
         ];
-
         // Insere os dados na tabela 'usuarios'
         $this->db->table('usuarios')->insertBatch($data);
     }
