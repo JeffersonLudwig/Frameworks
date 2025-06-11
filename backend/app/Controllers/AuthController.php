@@ -70,8 +70,10 @@ class AuthController extends ResourceController
 
         $token = $jwtService->gerarToken($claims);
 
-        return $this->respond([
-            'token' => $token,
-        ]);
+        return $this->response
+            // ->setCookie('token', $token, 3600, '/', '', true, true, '', 'Strict')
+            ->setJSON([
+                'token' => $token,
+            ]);
     }
 }
