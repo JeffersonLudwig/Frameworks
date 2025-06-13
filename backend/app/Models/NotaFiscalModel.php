@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\NotaFiscal;
 use CodeIgniter\Model;
 
 class NotaFiscalModel extends Model
@@ -17,15 +18,37 @@ class NotaFiscalModel extends Model
         'data_saida',
         'valor_total',
         'valor_desconto',
+        'status',
         'created_at',
         'updated_at',
-        'cliente_id'
+        'cliente_id',
+        'usuario_id',
+        'estoque_id'
     ];
 
     public function cadastrarNotaFiscal(array $dados)
     {
-        unset($dados['created_at']);
-        return $this->insert($dados);
+        try {
+            if (empty($dados['status'])) {
+                $dados['status'] = NotaFiscal::Pendente->nome();
+            }
+
+            $notaExistente = $this->builder()
+                ->where('numero_nf', $dados['numero_nf'])
+                ->get()
+                ->getRowArray();
+            if ($notaExistente) {
+                if ($notaExistente['usuario_id'] != $dados['usuario_id']) {
+                    throw new \Exception('Nota fiscal já cadastrada por outro usuário.');
+                } else {
+                    throw new \Exception('Nota fiscal já cadastrada por você.');
+                }
+            }
+
+            return $this->insert($dados);
+        } catch (\Exception $e) {
+            throw new \Exception('Erro ao cadastrar nota fiscal: ' . $e->getMessage());
+        }
     }
 
     public function listarNotaFiscal(): array
@@ -47,5 +70,23 @@ class NotaFiscalModel extends Model
             ->where('notas_fiscais.id', $id)
             ->get()
             ->getRowArray();
+    }
+    public function deletarNotaFiscal($id)
+    {
+        $nota = $this->builder()
+            ->select('notas_fiscais.*', 'status')
+            ->where('id', $id)
+            ->get()
+            ->getRowArray();
+
+        if (!$nota) {
+            throw new \Exception('Nota fiscal nao encontrada.');
+        }
+
+        if ($nota['status'] == 'Enviada') {
+            throw new \Exception('Nota fiscal enviada, nao pode ser excluida.');
+        }
+        $this->delete(['id' => $id]);
+        return ['success' => true, 'message' => 'Nota fiscal excluída com sucesso.'];
     }
 }

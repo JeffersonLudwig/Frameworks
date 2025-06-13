@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class Database extends Migration
+class UpdateBanco extends Migration
 {
     public function up()
     {
@@ -119,12 +119,17 @@ class Database extends Migration
             'data_saida' => ['type' => 'TIMESTAMP'],
             'valor_total' => ['type' => 'DECIMAL', 'constraint' => [10, 2]],
             'valor_desconto' => ['type' => 'DECIMAL', 'constraint' => [10, 2]],
+            'usuario_id' => ['type' => 'INT'],
             'cliente_id' => ['type' => 'INT'],
+            'estoque_id' => ['type' => 'INT'],
+            'status' => ['type' => 'VARCHAR', 'constraint' => 255],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
             'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
         $this->forge->addForeignKey('cliente_id', 'clientes', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('estoque_id', 'estoques', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('usuario_id', 'usuarios', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('notas_fiscais');
         $this->db->query('CREATE SEQUENCE notas_fiscais_id_seq START 1;');
         $this->db->query('ALTER TABLE notas_fiscais ALTER COLUMN id SET DEFAULT nextval(\'notas_fiscais_id_seq\');');
