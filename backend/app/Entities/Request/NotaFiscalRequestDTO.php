@@ -13,9 +13,7 @@ class NotaFiscalRequestDTO
     public string $data_saida;
     public float $valor_total;
     public float $valor_desconto;
-    public int $estoque_id;
     public int $cliente_id;
-    public int $usuario_id;
 
 
     public function __construct(array $data)
@@ -28,9 +26,7 @@ class NotaFiscalRequestDTO
         $this->data_saida        = $data['data_saida'];
         $this->valor_total       = (float) $data['valor_total'];
         $this->valor_desconto    = (float) $data['valor_desconto'];
-        $this->estoque_id        = $data['estoque_id'];
         $this->cliente_id        = $data['cliente_id'];
-        $this->usuario_id        = $data['usuario_id'];
     }
     public function toArray(): array
     {
@@ -43,9 +39,7 @@ class NotaFiscalRequestDTO
             'data_saida'        => $this->data_saida,
             'valor_total'       => $this->valor_total,
             'valor_desconto'    => $this->valor_desconto,
-            'estoque_id'        => $this->estoque_id,
-            'cliente_id'        => $this->cliente_id,
-            'usuario_id'        => $this->usuario_id
+            'cliente_id'        => $this->cliente_id
         ];
     }
 }

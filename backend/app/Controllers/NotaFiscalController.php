@@ -3,11 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\NotaFiscalModel;
-use App\Models\NotaProdutoModel;
 use App\Entities\Request\NotaFiscalRequestDTO;
 use App\Entities\Response\NotaFiscalResponseDTO;
-use App\Entities\Request\ProdutoNotaRequestDTO;
-use App\Authentication\JwtService;
 
 class NotaFiscalController extends BaseController
 {
@@ -20,27 +17,7 @@ class NotaFiscalController extends BaseController
             ])->setStatusCode(405);
         }
 
-        $authHeader = $this->request->getHeaderLine('Authorization');
-        if (strpos($authHeader, 'Bearer ') === 0) {
-            $jwt = trim(str_replace('Bearer', '', $authHeader));
-        } else {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Token JWT não fornecido ou em formato inválido.'
-            ])->setStatusCode(401);
-        }
-
-        $jwtService = new JwtService(env('JWT_SECRET'));
-        $claims = $jwtService->validarToken($jwt);
-        if (!$claims || !isset($claims['uid'])) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Token inválido ou user_id ausente.'
-            ])->setStatusCode(401);
-        }
-        $userId = $claims['uid'];
         $postData = $this->request->getJSON(true);
-        $postData['usuario_id'] = $userId;
 
         $validationRules = [
             'numero_nf'         => 'required',
@@ -52,8 +29,6 @@ class NotaFiscalController extends BaseController
             'valor_total'       => 'required|decimal',
             'valor_desconto'    => 'required|decimal',
             'cliente_id'        => 'required',
-            'estoque_id'        => 'required',
-            'usuario_id'        => 'required'
         ];
 
         $validationMessages = [
@@ -62,8 +37,6 @@ class NotaFiscalController extends BaseController
             'numero_folhas' => ['required' => 'O campo número de folhas é obrigatório.'],
             'natureza_operacao' => ['required' => 'O campo natureza da operação é obrigatório.'],
             'cliente_id' => ['required' => 'O campo client_id é obrigatório.'],
-            'estoque_id' => ['required' => 'O campo estoque_id é obrigatório.'],
-            'usuario_id' => ['required' => 'Error: Entre em contato com o administrador.'],
             'data_emissao' => [
                 'required' => 'A data de emissão é obrigatória.',
                 'valid_date' => 'A data de emissão deve estar em formato válido.'
@@ -83,19 +56,10 @@ class NotaFiscalController extends BaseController
         ];
 
         if (!$this->validateData($postData, $validationRules, $validationMessages)) {
-            $errors = $this->validator->getErrors();
-
-            if (isset($errors['usuario_id']) && $errors['usuario_id'] === 'Error: Entre em contato com o administrador.') {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => 'Erro interno: campo usuario_id falhou inesperadamente.'
-                ])->setStatusCode(500);
-            }
-
             return $this->response->setJSON([
                 'status' => 'error',
-                'message' => $errors
-            ])->setStatusCode(400);
+                'message' => $this->validator->getErrors()
+            ])->setStatusCode(422);
         }
 
         try {
@@ -103,14 +67,8 @@ class NotaFiscalController extends BaseController
             $dadosSalvar = $notaFiscalDTO->toArray();
 
             $notaFiscalModel = new NotaFiscalModel();
-
             $notaFiscalModel->cadastrarNotaFiscal($dadosSalvar);
-            if (isset($result['success']) && $result['success'] === false) {
-                return $this->response->setJSON([
-                    'status' => 'error',
-                    'message' => $result['message']
-                ])->setStatusCode(400);
-            }
+
             return $this->response->setJSON([
                 'status' => 'success',
                 'data' => $dadosSalvar
@@ -184,61 +142,6 @@ class NotaFiscalController extends BaseController
                     'data' => $dto->detalhesArray()
                 ])
                 ->setStatusCode(200);
-        } catch (\Throwable $e) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ])->setStatusCode(500);
-        }
-    }
-
-    public function deletarNotaFiscal($id)
-    {
-        if (!$this->request->is('delete')) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Método não permitido.'
-            ])->setStatusCode(405);
-        }
-
-        try {
-            $notaFiscalModel = new NotaFiscalModel();
-            $notaFiscalModel->deletarNotaFiscal($id);
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Nota Fiscal %s deletada com sucesso.',
-                'id' => $id
-            ])->setStatusCode(200);
-        } catch (\Throwable $e) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ])->setStatusCode(500);
-        }
-    }
-
-    public function inserirProdutoNaNotaFiscal()
-    {
-        if (!$this->request->is('post')) {
-            return $this->response->setJSON([
-                'status' => 'error',
-                'message' => 'Método não permitido.'
-            ])->setStatusCode(405);
-        }
-
-        $postData = $this->request->getJSON(true);
-        try {
-
-            $notaFiscalDTO = new ProdutoNotaRequestDTO($postData);
-            $dadosSalvar = $notaFiscalDTO->toArray();
-
-            $notaFiscalModel = new NotaProdutoModel();
-
-            $notaFiscalModel->inserirProdutoNaNotaFiscal($dadosSalvar);
-            return $this->response->setJSON([
-                'status' => 'success',
-                'message' => 'Produto inserido na nota fiscal com sucesso.'
-            ])->setStatusCode(200);
         } catch (\Throwable $e) {
             return $this->response->setJSON([
                 'status' => 'error',

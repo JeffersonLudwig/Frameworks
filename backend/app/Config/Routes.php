@@ -18,7 +18,9 @@ $routes->group('api', function ($routes) {
 
 // Rotas protegidas por JWT
 $routes->group('api', ['filter' => 'jwt'], function ($routes) {
-
+    $routes->post('notafiscal/cadastrar', 'NotaFiscalController::cadastrarNotaFiscal');
+    $routes->get('notafiscal/listar', 'NotaFiscalController::listarNotaFiscal');
+    $routes->get('notafiscal/listar/(:num)', 'NotaFiscalController::listarNotaFiscalId/$1');
     $routes->get('users/findall', 'UsuarioController::index');
     $routes->get('estoques/findAll', 'EstoqueController::index');
 
@@ -29,13 +31,6 @@ $routes->group('api', ['filter' => 'jwt'], function ($routes) {
     $routes->put('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
-
-    // Rotas das notas fiscais
-    $routes->post('notafiscal/cadastrar', 'NotaFiscalController::cadastrarNotaFiscal');
-    $routes->get('notafiscal/listar', 'NotaFiscalController::listarNotaFiscal');
-    $routes->get('notafiscal/listar/(:num)', 'NotaFiscalController::listarNotaFiscalId/$1');
-    $routes->delete('notafiscal/deletar/(:num)', 'NotaFiscalController::deletarNotaFiscal/$1');
-    $routes->post('notafiscal/inserir-produto', 'NotaFiscalController::inserirProdutoNaNotaFiscal');
 
     $routes->get('users', 'UserController::index');
 });
