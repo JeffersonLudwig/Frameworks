@@ -48,8 +48,6 @@ class NotaFiscalModel extends Model
             ->get()
             ->getRowArray();
     }
-<<<<<<< Updated upstream
-=======
     public function deletarNotaFiscal($id)
     {
         $nota = $this->builder()
@@ -77,5 +75,4 @@ class NotaFiscalModel extends Model
 
         return $this->update($id, ['valor_total' => $dados['valor_unitario']]);
     }
->>>>>>> Stashed changes
 }

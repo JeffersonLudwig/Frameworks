@@ -31,9 +31,6 @@ $routes->group('api', ['filter' => 'jwt'], function ($routes) {
     $routes->put('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
-
-<<<<<<< Updated upstream
-=======
     // Rotas das notas fiscais
     $routes->post('notafiscal/cadastrar', 'NotaFiscalController::cadastrarNotaFiscal');
     $routes->get('notafiscal/listar', 'NotaFiscalController::listarNotaFiscal');
@@ -41,7 +38,6 @@ $routes->group('api', ['filter' => 'jwt'], function ($routes) {
     $routes->delete('notafiscal/deletar/(:num)', 'NotaFiscalController::deletarNotaFiscal/$1');
     $routes->post('notafiscal/inserirproduto', 'NotaFiscalController::inserirProdutoNaNotaFiscal');
 
->>>>>>> Stashed changes
     $routes->get('users', 'UserController::index');
 });
 
