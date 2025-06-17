@@ -55,12 +55,10 @@ class UpdateUsuariosDate extends Migration
         $this->forge->addField([
             'id' => ['type' => 'INT'],
             'nome' => ['type' => 'VARCHAR', 'UNIQUE' => true, 'constraint' => 255],
-            'estoque_id' => ['type' => 'INT'],
             'created_at' => ['type' => 'TIMESTAMP', 'null' => true],
             'updated_at' => ['type' => 'TIMESTAMP', 'null' => true],
         ]);
         $this->forge->addKey('id', true);
-        $this->forge->addForeignKey('estoque_id', 'estoques', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('produtos');
         $this->db->query('CREATE SEQUENCE produtos_id_seq START 1;');
         $this->db->query('ALTER TABLE produtos ALTER COLUMN id SET DEFAULT nextval(\'produtos_id_seq\');');

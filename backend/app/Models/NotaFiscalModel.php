@@ -48,4 +48,34 @@ class NotaFiscalModel extends Model
             ->get()
             ->getRowArray();
     }
+<<<<<<< Updated upstream
+=======
+    public function deletarNotaFiscal($id)
+    {
+        $nota = $this->builder()
+            ->select('notas_fiscais.*', 'status')
+            ->where('id', $id)
+            ->get()
+            ->getRowArray();
+
+        if (!$nota) {
+            throw new \Exception('Nota fiscal nao encontrada.');
+        }
+
+        if ($nota['status'] == 'Enviada') {
+            throw new \Exception('Nota fiscal enviada, nao pode ser excluida.');
+        }
+        $this->delete(['id' => $id]);
+        return ['success' => true, 'message' => 'Nota fiscal excluída com sucesso.'];
+    }
+
+    public function atualizarValorTotalNotaFiscal($id, array $dados)
+    {
+        if (!isset($dados['valor_unitario'])) {
+            return false;
+        }
+
+        return $this->update($id, ['valor_total' => $dados['valor_unitario']]);
+    }
+>>>>>>> Stashed changes
 }
