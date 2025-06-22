@@ -14,7 +14,7 @@ class NotaProdutoModel extends Model
 
     public function inserirProdutoNaNotaFiscal(array $dados)
     {
-        $quantidadeInicial = 1;
+        $quantidadePadrao = 1;
 
         $produtoExistente = $this->db->table('notas_fiscais_produtos')
             ->where('nota_fiscal_id', $dados['nota_fiscal_id'])
@@ -36,8 +36,8 @@ class NotaProdutoModel extends Model
         }
 
         if ($produtoExistente) {
-            $novaQuantidade = $produtoExistente['quantidade'] + ($dados['quantidade'] ?? $quantidadeInicial);
-            $novoValorTotal = $novaQuantidade * $dados['valor_unitario'];
+            $quantidade = $dados['quantidade'] ?? $quantidadePadrao;
+            $novaQuantidade = $produtoExistente['quantidade'] + $quantidade;
 
             $this->db->table('notas_fiscais_produtos')
                 ->where('id', $produtoExistente['id'])
@@ -45,10 +45,14 @@ class NotaProdutoModel extends Model
                     'quantidade' => $novaQuantidade,
                 ]);
         } else {
-            $quantidadeFinal = $dados['quantidade'] ?? $quantidadeInicial;
-            $dados['quantidade'] = $quantidadeFinal;
+            $dadosParaInsercao = [
+                'nota_fiscal_id' => $dados['nota_fiscal_id'],
+                'produto_id'     => $dados['produto_id'],
+                'quantidade'     => $dados['quantidade'] ?? $quantidadePadrao,
+                'valor_unitario' => $dados['valor_unitario'],
+            ];
 
-            $this->db->table('notas_fiscais_produtos')->insert($dados);
+            $this->db->table('notas_fiscais_produtos')->insert($dadosParaInsercao);
         }
 
         $notaFiscalModel = new NotaFiscalModel();

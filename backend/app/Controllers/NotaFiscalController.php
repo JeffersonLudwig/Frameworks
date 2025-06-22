@@ -3,8 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\NotaFiscalModel;
+use App\Models\NotaProdutoModel;
 use App\Entities\Request\NotaFiscalRequestDTO;
 use App\Entities\Response\NotaFiscalResponseDTO;
+use App\Entities\Request\ProdutoEmNotaFiscalDTO;
 
 class NotaFiscalController extends BaseController
 {
@@ -142,6 +144,34 @@ class NotaFiscalController extends BaseController
                     'data' => $dto->detalhesArray()
                 ])
                 ->setStatusCode(200);
+        } catch (\Throwable $e) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ])->setStatusCode(500);
+        }
+    }
+
+    public function inserirProdutoNaNotaFiscal()
+    {
+        if (!$this->request->is('post')) {
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Método não permitido.'
+            ])->setStatusCode(405);
+        }
+
+        try {
+            $dados = $this->request->getJSON(true); // Recebe array de dados
+            $notaFiscalId = (int) $dados['nota_fiscal_id'];
+            $dto = new ProdutoEmNotaFiscalDTO($dados); // Cria DTO com validação
+
+            $notaProdutoModel = new NotaProdutoModel();
+            $notaProdutoModel->inserirProdutoNaNotaFiscal($dto->toArray($notaFiscalId));
+            return $this->response->setJSON([
+                'status' => 'success',
+                'message' => 'Produto inserido na nota fiscal com sucesso.'
+            ]);
         } catch (\Throwable $e) {
             return $this->response->setJSON([
                 'status' => 'error',

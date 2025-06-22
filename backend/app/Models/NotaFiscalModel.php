@@ -69,10 +69,41 @@ class NotaFiscalModel extends Model
 
     public function atualizarValorTotalNotaFiscal($id, array $dados)
     {
+        $valor_total = 0;
         if (!isset($dados['valor_unitario'])) {
             return false;
         }
 
-        return $this->update($id, ['valor_total' => $dados['valor_unitario']]);
+        $nota = $this->builder()
+            ->select('notas_fiscais.*', 'status', 'valor_total')
+            ->where('id', $id)
+            ->get()
+            ->getRowArray();
+
+        if (!$nota) {
+            throw new \Exception('Nota fiscal nao encontrada.');
+        }
+
+        if ($nota['status'] == 'Enviada') {
+            throw new \Exception('Nota fiscal enviada, nao pode ser alterada.');
+        }
+
+        if ($nota['status'] == 'Cancelada') {
+            throw new \Exception('Nota fiscal cancelada, nao pode ser alterada.');
+        }
+
+        $itens = $this->db->table('notas_fiscais_produtos')
+            ->select('notas_fiscais_produtos.*, produtos.nome as produto_nome')
+            ->join('produtos', 'produtos.id = notas_fiscais_produtos.produto_id')
+            ->where('nota_fiscal_id', $id)
+            ->get()
+            ->getResultArray();
+        $nota['itens'] = $itens;
+
+        foreach ($itens as $item) {
+            $valor_total += $item['valor_unitario'] * $item['quantidade'];
+        }
+
+        return $this->update($id, ['valor_total' => $valor_total]);
     }
 }
