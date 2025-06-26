@@ -5,21 +5,39 @@
 Sistema de Controle de Estoque com CodeIgniter
 Este projeto visa desenvolver um Sistema de Controle de Estoque robusto e intuitivo utilizando o framework CodeIgniter. A aplicação permitirá o gerenciamento eficiente de produtos, entradas e saídas do estoque, fornecedores e clientes, oferecendo uma visão clara e em tempo real do inventário.
 
-## Estrutura do Projeto
+## Estrutura Base do Projeto
 ```bash
-A1/
-├── Cadastro_Login/
-│   ├── cadastro.php         
-│   ├── login.php            
-│   ├── logout.php           
-│   ├── processa_cadastro.php 
-│   └── processa_login.php    
-├── Classes/
-│   ├── Autenticador.php    
-│   ├── Sessao.php          
-│   └── Usuario.php         
-├── dashboard.php          
-└── index.php              
+Frameworks/
+├── backend/
+│   ├── app/
+│   ├── public/
+│   ├── tests/
+│   ├── vendor/
+│   ├── writable/
+│   ├── .gitignore
+│   ├── builds
+│   ├── composer.json
+│   ├── composer.lock
+│   ├── .env
+│   ├── LICENSE
+│   ├── phpunit.xml.dist
+│   ├── preload.php
+│   ├── README.md
+│   └── spark
+└── frontend/
+    ├── app/
+    ├── components/
+    ├── lib/
+    ├── public/
+    ├── .gitignore
+    ├── components.json
+    ├── eslint.config.mjs
+    ├── next.config.ts
+    ├── package-lock.json  
+    ├── package.json       
+    ├── postcss.config.js  
+    ├── README.md
+    └── tsconfig.json 
 ```
 
 **Acesse o vídeo da apresentação:`https://www.youtube.com`**
