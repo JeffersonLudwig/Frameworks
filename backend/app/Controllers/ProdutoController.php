@@ -3,53 +3,89 @@
 namespace App\Controllers;
 
 use App\Models\ProdutoModel;
-use CodeIgniter\RESTful\ResourceController;
+use App\Models\NotaProdutoModel;
 use App\Entities\Request\ProdutoUpdateRequestDTO;
 use App\Entities\Response\ProdutoEmNotaFiscalDTO;
+use CodeIgniter\RESTful\ResourceController;
 
-class ProdutoController extends ResourceController
+class ProdutoController extends BaseController
 {
-    protected $modelName = ProdutoModel::class;
-    protected $format    = 'json';
+    private $produtoModel;
 
-    // ... (métodos index, show, create, delete - permanecem iguais)
+    public function __construct()
+    {
+        $this->produtoModel = new ProdutoModel();
+    }
 
-    // Atualiza produto existente
+    public function index()
+    {
+        return $this->response->setJSON($this->produtoModel->findAll());
+    }
+
+    public function show($id = null)
+    {
+        $produto = $this->produtoModel->find($id);
+        if ($produto) {
+            return $this->response->setJSON($produto);
+        }
+        return $this->response->setStatusCode(404)->setJSON(['error' => 'Produto não encontrado']);
+    }
+
+    public function create()
+    {
+        $data = $this->request->getJSON(true);
+        $id = $this->produtoModel->insert($data);
+        if ($this->produtoModel->errors()) {
+            return $this->response->setStatusCode(400)->setJSON($this->produtoModel->errors());
+        }
+        $data['id'] = $id;
+        return $this->response->setStatusCode(201)->setJSON($data);
+    }
+
     public function update($id = null)
     {
-        $produto = $this->model->find($id);
-        if (!$produto) {
-            return $this->failNotFound('Produto não encontrado');
-        }
+        $produtoUpdateRequest = new ProdutoUpdateRequestDTO($this->request->getJSON(true));
 
-        $jsonData = $this->request->getJSON(true);
-        $produtoUpdateDTO = new ProdutoUpdateRequestDTO($jsonData);
-        $data = $produtoUpdateDTO->toArray();
+        $notaProdutoModel = new NotaProdutoModel();
+        $produtosEmNota = $notaProdutoModel->where('produto_id', $id)->findAll();
 
-        $notasFiscais = $this->model->produtoEmNotaFiscalSaida($id);
+        if (!empty($produtosEmNota)) {
+            $notasFiscaisDeSaida = [];
+            $notaFiscalModel = new \App\Models\NotaFiscalModel();
 
-        if (!empty($notasFiscais)) {
-            $listaNotas = [];
-            foreach ($notasFiscais as $nota) {
-                $produtoDTO = new ProdutoEmNotaFiscalDTO($produto['nome'], $nota['nota_fiscal_id']);
-                $listaNotas[] = $produtoDTO->toArray();
+            foreach ($produtosEmNota as $produtoEmNota) {
+                $notaFiscal = $notaFiscalModel->find($produtoEmNota['nota_fiscal_id']);
+                if ($notaFiscal && $notaFiscal['numero_serie'] == 1) { // Assumindo que 1 significa saída
+                    $notasFiscaisDeSaida[] = $produtoEmNota['nota_fiscal_id'];
+                }
             }
 
-            return $this->respond([
-                'status' => 'warning',
-                'message' => 'Produto associado a notas fiscais de saída.',
-                'data' => $listaNotas,
-            ], 400);
+            if (!empty($notasFiscaisDeSaida)) {
+                $produto = $this->produtoModel->find($id);
+
+                $responseDTO = new ProdutoEmNotaFiscalDTO(
+                    $produto['nome'],
+                    array_unique($notasFiscaisDeSaida)
+                );
+
+                return $this->response->setStatusCode(409)->setJSON($responseDTO->toArray());
+            }
         }
 
-        if (!$this->model->update($id, $data)) {
-            return $this->failValidationErrors($this->model->errors());
+        $data = $produtoUpdateRequest->toArray();
+
+        if ($this->produtoModel->update($id, $data) === false) {
+            return $this->response->setStatusCode(400)->setJSON($this->produtoModel->errors());
         }
 
-        return $this->respond([
-            'status' => 'success',
-            'message' => 'Produto atualizado com sucesso.',
-            'data'   => $data,
-        ]);
+        return $this->response->setJSON($this->produtoModel->find($id));
+    }
+
+    public function delete($id = null)
+    {
+        if ($this->produtoModel->delete($id)) {
+            return $this->response->setStatusCode(200)->setJSON(['id' => $id]);
+        }
+        return $this->response->setStatusCode(404)->setJSON(['error' => 'Produto não encontrado']);
     }
 }

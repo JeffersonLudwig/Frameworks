@@ -18,12 +18,21 @@ $routes->group('api', function ($routes) {
 
 // Rotas protegidas por JWT
 $routes->group('api', ['filter' => 'jwt'], function ($routes) {
-    $routes->get('estoques/findAll', 'EstoqueController::index');
+    // Rotas de Estoque
+    $routes->get('estoques', 'EstoqueController::index');
+    $routes->get('estoques/(:num)', 'EstoqueController::show/$1');
+    $routes->post('estoques', 'EstoqueController::create');
+    $routes->put('estoques/(:num)', 'EstoqueController::update/$1');
+    $routes->patch('estoques/(:num)', 'EstoqueController::update/$1');
+    $routes->delete('estoques/(:num)', 'EstoqueController::delete/$1');
+    $routes->post('estoques/(:num)/produtos', 'EstoqueController::adicionarProduto/$1');
+    $routes->put('estoques/(:num)/produtos/(:num)', 'EstoqueController::atualizarProduto/$1/$2');
+    $routes->delete('estoques/(:num)/produtos/(:num)', 'EstoqueController::removerProduto/$1/$2');
 
     // Rotas dos produtos
     $routes->get('produtos', 'ProdutoController::index');
     $routes->get('produtos/(:num)', 'ProdutoController::show/$1');
-    $routes->post('produtos', 'ProdutoController::create');
+    $routes->post('produtos/', 'ProdutoController::create');
     $routes->put('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
     $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
@@ -39,16 +48,3 @@ $routes->group('api', ['filter' => 'jwt'], function ($routes) {
     $routes->get('users', 'UserController::index');
     $routes->get('users/findall', 'UsuarioController::index');
 });
-
-// $routes->group('api', function ($routes) {
-//     $routes->get('produtos', 'ProdutoController::index');
-//     $routes->get('produtos/(:num)', 'ProdutoController::show/$1');
-//     $routes->post('produtos', 'ProdutoController::create');
-//     $routes->put('produtos/(:num)', 'ProdutoController::update/$1');
-//     $routes->patch('produtos/(:num)', 'ProdutoController::update/$1');
-//     $routes->delete('produtos/(:num)', 'ProdutoController::delete/$1');
-// });
-// $routes->group('api', ['filter' => 'jwt'], function ($routes) {
-//     // EstoqueProduto
-//     $routes->resource('estoqueprodutos', 'EstoqueProdutoController', ['except' => ['new', 'edit']]);
-// });
