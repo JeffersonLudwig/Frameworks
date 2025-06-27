@@ -4,8 +4,8 @@ namespace App\Entities\Response;
 
 class ProdutoEmNotaFiscalDTO
 {
-    public string $nomeProduto;
-    public int $notaFiscalId;
+    private string $nomeProduto;
+    private int $notaFiscalId;
 
     public function __construct(string $nomeProduto, int $notaFiscalId)
     {

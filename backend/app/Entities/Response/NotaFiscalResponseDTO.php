@@ -5,16 +5,16 @@ namespace App\Entities\Response;
 
 class NotaFiscalResponseDTO
 {
-    public int $id;
-    public string $numero_nf;
-    public string $numero_serie;
-    public string $numero_folhas;
-    public string $natureza_operacao;
-    public string $data_emissao;
-    public string $data_saida;
-    public float $valor_total;
-    public float $valor_desconto;
-    public string $nome;
+    private int $id;
+    private string $numero_nf;
+    private string $numero_serie;
+    private string $numero_folhas;
+    private string $natureza_operacao;
+    private string $data_emissao;
+    private string $data_saida;
+    private float $valor_total;
+    private float $valor_desconto;
+    private string $nome;
 
     public function __construct(array $data)
     {

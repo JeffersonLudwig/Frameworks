@@ -4,7 +4,7 @@ namespace App\Entities\Request;
 
 class ProdutoUpdateRequestDTO
 {
-    public string $nome;
+    private string $nome;
 
     public function __construct(array $data)
     {

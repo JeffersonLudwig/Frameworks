@@ -4,9 +4,9 @@ namespace App\Entities\Request;
 
 class ProdutoEmNotaFiscalDTO
 {
-    public int $produto_id;
-    public int $quantidade;
-    public float $valor_unitario;
+    private int $produto_id;
+    private int $quantidade;
+    private float $valor_unitario;
 
     public function __construct(array $data)
     {
