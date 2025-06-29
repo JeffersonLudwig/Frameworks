@@ -16,7 +16,8 @@ class ProdutoEmNotaFiscalDTO
     public function toArray(): array
     {
         return [
-            'nome_produto' => $this->nomeProduto,
+            'message'        => 'O produto não pode ser alterado pois está vinculado a uma nota fiscal de saída.',
+            'nome_produto'   => $this->nomeProduto,
             'nota_fiscal_id' => $this->notaFiscalId,
         ];
     }
