@@ -40,7 +40,7 @@ Frameworks/
     └── tsconfig.json 
 ```
 
-**Vídeo da apresentação Roberson:[`Link`](https://youtu.be/VZ2C44-heh4)**
+**Vídeo da apresentação Roberson:[`Link`](https://youtu.be/0lKD4JHZSgw)**
 
 **Estudantes:**
 
